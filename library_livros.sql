@@ -31,6 +31,7 @@ CREATE TABLE `livros` (
   `nome_livro` varchar(50) DEFAULT NULL,
   `ano` int(4) DEFAULT NULL,
   `user_que_alugou` varchar(30) DEFAULT NULL,
+  `dia_que_alugou` datetime DEFAULT NULL,
   PRIMARY KEY (`id_livro`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -41,7 +42,7 @@ CREATE TABLE `livros` (
 
 LOCK TABLES `livros` WRITE;
 /*!40000 ALTER TABLE `livros` DISABLE KEYS */;
-INSERT INTO `livros` VALUES (21,'9788532523051','J. K. Rowling',3,'Scholastic ','Harry Potter',2010,NULL),(22,'9783161484106','Sun Tzu',1,'Novo Seculo','A Arte da Guerra',1997,NULL),(26,'9788546187235','Arthur Schopenhauer',2,'Edipro','As Dores do Mundo',1950,'jarvan'),(27,'9784244214215','Sofia',2,'Rasbro','O Mundo de Sofia',2001,NULL),(28,'9783221521515','Thomas Bulfinch',1,'Agir','Mitologia Grega',2007,'matheus'),(29,'9784212421412','Augusto Cury',3,'Planeta','O Colecionador de Lágrimas',2012,'jarvan');
+INSERT INTO `livros` VALUES (21,'9788532523051','J. K. Rowling',3,'Scholastic ','Harry Potter',2010,NULL,NULL),(22,'9783161484106','Sun Tzu',1,'Novo Seculo','A Arte da Guerra',1997,NULL,NULL),(26,'9788546187235','Arthur Schopenhauer',2,'Edipro','As Dores do Mundo',1950,NULL,NULL),(27,'9784244214215','Sofia',2,'Rasbro','O Mundo de Sofia',2001,NULL,NULL),(28,'9783221521515','Thomas Bulfinch',1,'Agir','Mitologia Grega',2007,NULL,NULL),(29,'9784212421412','Augusto Cury',3,'Planeta','O Colecionador de Lágrimas',2012,NULL,NULL);
 /*!40000 ALTER TABLE `livros` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-30 19:37:46
+-- Dump completed on 2020-12-01 23:07:59

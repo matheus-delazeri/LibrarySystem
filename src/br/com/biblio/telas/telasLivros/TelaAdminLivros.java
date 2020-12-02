@@ -5,13 +5,15 @@ import java.sql.*;
 import br.com.biblio.telas.telasGeral.*;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import br.com.biblio.telas.telasGeral.Multas;
 
 public class TelaAdminLivros extends javax.swing.JFrame {
 Connection conexao = null;
 PreparedStatement pst = null;
 ResultSet rs = null; 
-  
+Multas multas = new Multas();
     public TelaAdminLivros() {
+        multas.verificarMultas();
         initComponents();
         conexao = ModuloConexao.conector();
         listarLivros();

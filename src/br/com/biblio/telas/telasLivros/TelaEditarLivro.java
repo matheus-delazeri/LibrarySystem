@@ -4,7 +4,6 @@ import br.com.biblio.dal.ModuloConexao;
 import java.sql.*;
 import javax.swing.JOptionPane;
 
-
 public class TelaEditarLivro extends javax.swing.JFrame {
 Connection conexao = null;
 PreparedStatement pst = null;
@@ -13,7 +12,6 @@ ResultSet rs = null;
     public TelaEditarLivro() {
         initComponents();
         conexao = ModuloConexao.conector();
-        
     }
     public String showLivro(String isbn){
         String sql = "select * from livros where isbn=?";
@@ -180,21 +178,20 @@ ResultSet rs = null;
                                 .addComponent(editEditora)
                                 .addComponent(editAno, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                                 .addComponent(editEdicao))
-                            .addComponent(editISBN, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(143, Short.MAX_VALUE))
+                            .addComponent(editISBN, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnVoltar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 206, Short.MAX_VALUE)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(originalIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(76, 76, 76)
-                        .addComponent(btnSalvarEdit)
-                        .addGap(18, 18, 18))))
+                        .addComponent(originalIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSalvarEdit)
+                .addGap(18, 18, 18))
             .addGroup(layout.createSequentialGroup()
                 .addGap(237, 237, 237)
                 .addComponent(jLabel7)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 248, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

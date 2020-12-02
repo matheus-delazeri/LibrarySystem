@@ -7,18 +7,25 @@ package br.com.biblio.telas.telasGeral;
 
 import java.sql.*;
 import br.com.biblio.dal.ModuloConexao;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
-import javax.swing.table.*;
 
+import br.com.biblio.telas.telasGeral.Multas;
 import br.com.biblio.telas.telasUsuario.*;
 import br.com.biblio.telas.telasLivros.*;
 
 public class TelaAdmin extends javax.swing.JFrame {
-
+Connection conexao = null;
+PreparedStatement pst = null;
+ResultSet rs = null;
+Multas multas = new Multas();
     public TelaAdmin() {
+        multas.verificarMultas();
         initComponents();
+        conexao = ModuloConexao.conector();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

@@ -2,6 +2,7 @@ package br.com.biblio.telas.telasUsuario;
 
 import br.com.biblio.dal.ModuloConexao;
 import java.sql.*;
+import java.time.*;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -107,7 +108,6 @@ ResultSet rs = null;
             }
         }
     }
-    
     private int verificarNumEmprestimos(String user, String cargo){
         String sql = "select * from livros where user_que_alugou=?";
         int cont = 0;
@@ -127,15 +127,17 @@ ResultSet rs = null;
             return -1;
         }
     }
-    
     private void marcarLivroEmprestado(String isbn, String user){
+        LocalDate hoje = java.time.LocalDate.now();  
+        Date convHoje = Date.valueOf(hoje);
         int confirma=JOptionPane.showConfirmDialog(null, "Tem certeza que deseja alugar o livro selecionado?");
         if (confirma==JOptionPane.YES_OPTION){
-            String sql= "update livros set user_que_alugou=? where isbn=?";
+            String sql= "update livros set user_que_alugou=?, dia_que_alugou=? where isbn=?";
             try{
                 pst = conexao.prepareStatement(sql);
                 pst.setString(1, user);
-                pst.setString(2, isbn);
+                pst.setDate(2, convHoje);
+                pst.setString(3, isbn);
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null,"O livro foi alugado com sucesso!");
                 setVisible(false);

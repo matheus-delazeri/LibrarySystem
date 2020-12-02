@@ -22,6 +22,7 @@ ResultSet rs = null;
             pst.setString(1, user);
             rs = pst.executeQuery();
             if(rs.next()){
+                valorTotalMultas.setText(rs.getString(6));
                 titleField.setText(rs.getString(3));
                 nameField.setText(rs.getString(1));
                 lastnameField.setText(rs.getString(2));
@@ -62,30 +63,77 @@ ResultSet rs = null;
         DefaultTableModel modeloTabela = (DefaultTableModel)tableLivrosAlugados.getModel(); 
         int row = tableLivrosAlugados.getSelectedRow();
         if(row == -1){
-            JOptionPane.showMessageDialog(null, "Selecione a linha do livro que foi devolvido!");
+            JOptionPane.showMessageDialog(null, "Selecione a linha do livro que será devolvido!");
         }else{
             Object isbn = modeloTabela.getValueAt(row, 5);
             String strIsbn = isbn.toString();   
-            String sql ="update livros set user_que_alugou=? where isbn=?";
+            String sql ="update livros set user_que_alugou=?, dia_que_alugou=? where isbn=?";
             int confirma=JOptionPane.showConfirmDialog(null, "Tem certeza que deseja marcar o livro selecionado como devolvido?");
             if (confirma==JOptionPane.YES_OPTION){
                 try {
                     pst = conexao.prepareStatement(sql);
-                    pst.setString(1,null);
-                    pst.setString(2, strIsbn);
+                    pst.setString(1, null);
+                    pst.setDate(2, null);
+                    pst.setString(3, strIsbn);
                     pst.executeUpdate();
                     JOptionPane.showMessageDialog(null, "O livro foi devolvido!");
 
                     setVisible(false);
                     TelaInfoUsuario telaInfoUsuario = new TelaInfoUsuario(titleField.getText());
                     telaInfoUsuario.setVisible(true);
-
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Não foi possível devolver o livro");
                 }
             }
         }
-            
+    }
+    private void pagarMultas(){
+        String user =  titleField.getText();
+        String sql = "update users set multa=? where usuario=?";
+        if(Integer.parseInt(numLivrosAlugadosField.getText()) > 0){
+            int confirma=JOptionPane.showConfirmDialog(null, "Deseja zerar a multa e devolver todos os livros?");
+            if (confirma==JOptionPane.YES_OPTION){
+                try{
+                    pst = conexao.prepareStatement(sql);
+                    pst.setString(1, String.valueOf(0));
+                    pst.setString(2, user);
+                    pst.executeUpdate();
+                    devolverTodosLivros();
+                    JOptionPane.showMessageDialog(null, "A multa foi paga e os livros foram devolvidos!");
+                } catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            }
+        }else{
+             JOptionPane.showMessageDialog(null, "Não há nenhum livro para ser devolvido!");
+        }
+    }
+    private void devolverTodosLivros(){
+        String select = "select * from livros where user_que_alugou=?";
+        String user =  titleField.getText();
+        String sql ="update livros set user_que_alugou=?, dia_que_alugou=? where user_que_alugou=?";
+        if(Integer.parseInt(numLivrosAlugadosField.getText()) > 0){
+            try{
+                pst = conexao.prepareStatement(select);
+                pst.setString(1, user);
+                rs = pst.executeQuery();
+                while(rs.next()){
+                    pst = conexao.prepareStatement(sql);
+                    pst.setString(1, null);
+                    pst.setDate(2, null);
+                    pst.setString(3, user);
+                    pst.executeUpdate();
+                }
+            } catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+            setVisible(false);
+            TelaInfoUsuario telaInfoUsuario = new TelaInfoUsuario(user);
+            telaInfoUsuario.setVisible(true);
+            JOptionPane.showMessageDialog(null, "Os livros foram devolvidos!");
+        }else{
+            JOptionPane.showMessageDialog(null, "Não há nenhum livro para ser devolvido!");
+        }
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -107,6 +155,10 @@ ResultSet rs = null;
         numLivrosAlugadosField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         numMaxLivrosField = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        valorTotalMultas = new javax.swing.JTextField();
+        btnPagarMulta = new javax.swing.JButton();
+        btnDevolverTodosLivros = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -194,6 +246,26 @@ ResultSet rs = null;
         numMaxLivrosField.setEditable(false);
         numMaxLivrosField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel7.setText("Valor total de multas a pagar: R$");
+
+        valorTotalMultas.setEditable(false);
+        valorTotalMultas.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        btnPagarMulta.setText("Pagar multa e devolver todos os livros");
+        btnPagarMulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPagarMultaActionPerformed(evt);
+            }
+        });
+
+        btnDevolverTodosLivros.setText("Devolver todos os livros");
+        btnDevolverTodosLivros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDevolverTodosLivrosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -202,21 +274,12 @@ ResultSet rs = null;
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lastnameField, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
-                        .addGap(176, 176, 176))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cargoField)
+                                .addComponent(cargoField, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
                                 .addGap(433, 433, 433))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(138, 138, 138)
@@ -227,18 +290,42 @@ ResultSet rs = null;
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnVoltar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnDevolverTodosLivros)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnDevolverLivro)))
-                        .addContainerGap())))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(216, 216, 216)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(numLivrosAlugadosField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(numMaxLivrosField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(numLivrosAlugadosField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(numMaxLivrosField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lastnameField)
+                                        .addGap(176, 176, 176))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(valorTotalMultas, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(btnPagarMulta)
+                                .addGap(0, 0, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,25 +344,30 @@ ResultSet rs = null;
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(cargoField))
-                .addGap(32, 32, 32)
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(valorTotalMultas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(numLivrosAlugadosField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(numMaxLivrosField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(numMaxLivrosField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPagarMulta))
+                .addGap(25, 25, 25)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVoltar)
-                    .addComponent(btnDevolverLivro))
+                    .addComponent(btnDevolverLivro)
+                    .addComponent(btnDevolverTodosLivros))
                 .addGap(9, 9, 9))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         setVisible(false);
         TelaAdminUsuarios telaAdminUsuarios = new TelaAdminUsuarios();
@@ -286,12 +378,27 @@ ResultSet rs = null;
         devolverLivro();
     }//GEN-LAST:event_btnDevolverLivroActionPerformed
 
+    private void btnPagarMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarMultaActionPerformed
+        pagarMultas();
+    }//GEN-LAST:event_btnPagarMultaActionPerformed
+
+    private void btnDevolverTodosLivrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolverTodosLivrosActionPerformed
+        if(Integer.parseInt(numLivrosAlugadosField.getText()) > 0){
+            int confirma=JOptionPane.showConfirmDialog(null, "Deseja devolver todos os livros?");
+            if (confirma==JOptionPane.YES_OPTION){
+                devolverTodosLivros();
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Não há nenhum livro para ser devolvido!");
+        }
+    }//GEN-LAST:event_btnDevolverTodosLivrosActionPerformed
     public static void main(String args[]) {
         
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDevolverLivro;
+    private javax.swing.JButton btnDevolverTodosLivros;
+    private javax.swing.JButton btnPagarMulta;
     private javax.swing.JButton btnVoltar;
     private javax.swing.JTextField cargoField;
     private javax.swing.JLabel jLabel1;
@@ -300,6 +407,7 @@ ResultSet rs = null;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField lastnameField;
     private javax.swing.JTextField nameField;
@@ -307,5 +415,6 @@ ResultSet rs = null;
     private javax.swing.JTextField numMaxLivrosField;
     private javax.swing.JTable tableLivrosAlugados;
     private javax.swing.JTextField titleField;
+    private javax.swing.JTextField valorTotalMultas;
     // End of variables declaration//GEN-END:variables
 }
