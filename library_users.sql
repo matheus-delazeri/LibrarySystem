@@ -26,7 +26,6 @@ CREATE TABLE `users` (
   `firstname` varchar(20) DEFAULT NULL,
   `lastname` varchar(20) DEFAULT NULL,
   `usuario` varchar(10) DEFAULT NULL,
-  `senha` varchar(20) DEFAULT NULL,
   `cargo` varchar(20) DEFAULT NULL,
   `multa` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -38,7 +37,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('matheus','souza','matheus','123','Professor',0),('Jarvan','IV','jarvan','1234','Estudante',0),('Mathias','Rodriguez','mathias','1234','Professor',0),('Luiz','Gonçalves','luiz','0101','Professor',0);
+INSERT INTO `users` VALUES ('matheus','souza','matheus','Professor',0),('Jarvan','IV','jarvan','Estudante',0),('Mathias','Rodriguez','mathias','Professor',0),('Luiz','Gonçalves','luiz','Professor',0),('Matheus','Delazeri','matheuss','Professor',0),('Mathias','Delazeri','mathiass','Professor',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-01 23:07:59
+-- Dump completed on 2020-12-03  0:28:43
