@@ -33,10 +33,8 @@ Multas multas = new Multas();
         jLabel1 = new javax.swing.JLabel();
         btnGerencUsers = new javax.swing.JButton();
         btnGerencLivros = new javax.swing.JButton();
-        btnVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(400, 486));
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -56,44 +54,28 @@ Multas multas = new Multas();
             }
         });
 
-        btnVoltar.setText("Voltar");
-        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVoltarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(94, 94, 94)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
                     .addComponent(btnGerencUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGerencLivros, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(93, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnVoltar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(62, 62, 62)
+                .addContainerGap(103, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(57, 57, 57)
+                .addGap(77, 77, 77)
                 .addComponent(btnGerencUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
+                .addGap(84, 84, 84)
                 .addComponent(btnGerencLivros, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 178, Short.MAX_VALUE)
-                .addComponent(btnVoltar)
-                .addContainerGap())
+                .addGap(124, 124, 124))
         );
 
         pack();
@@ -105,12 +87,6 @@ Multas multas = new Multas();
             TelaAdminUsuarios adminUsers = new TelaAdminUsuarios();
             adminUsers.setVisible(true);
     }//GEN-LAST:event_btnGerencUsersActionPerformed
-
-    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
-            setVisible(false);
-            TelaLogin login = new TelaLogin();
-            login.setVisible(true);
-    }//GEN-LAST:event_btnVoltarActionPerformed
             
     private void btnGerencLivrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerencLivrosActionPerformed
             setVisible(false);
@@ -130,7 +106,6 @@ Multas multas = new Multas();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGerencLivros;
     private javax.swing.JButton btnGerencUsers;
-    private javax.swing.JButton btnVoltar;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

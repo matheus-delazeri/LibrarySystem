@@ -124,6 +124,7 @@ ResultSet rs = null;
         searchField = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         btnInfoUser = new javax.swing.JButton();
+        btnCadUsuario = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -194,10 +195,17 @@ ResultSet rs = null;
             }
         });
 
-        btnInfoUser.setText("Abrir informações do usuário selecionado");
+        btnInfoUser.setText("Abrir operações para o usuário selecionado");
         btnInfoUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInfoUserActionPerformed(evt);
+            }
+        });
+
+        btnCadUsuario.setText("Cadastrar novo usuário");
+        btnCadUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadUsuarioActionPerformed(evt);
             }
         });
 
@@ -213,6 +221,8 @@ ResultSet rs = null;
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnVoltar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnCadUsuario)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnInfoUser)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnDeleteUser)
@@ -247,7 +257,8 @@ ResultSet rs = null;
                     .addComponent(btnVoltar)
                     .addComponent(btnDeleteAllUsers)
                     .addComponent(btnDeleteUser)
-                    .addComponent(btnInfoUser))
+                    .addComponent(btnInfoUser)
+                    .addComponent(btnCadUsuario))
                 .addGap(22, 22, 22))
         );
 
@@ -276,6 +287,12 @@ ResultSet rs = null;
     private void btnInfoUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoUserActionPerformed
         abrirInfoUser();
     }//GEN-LAST:event_btnInfoUserActionPerformed
+
+    private void btnCadUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadUsuarioActionPerformed
+        setVisible(false);
+        TelaCadastroUsuario telaCadastroUsuario = new TelaCadastroUsuario();
+        telaCadastroUsuario.setVisible(true);
+    }//GEN-LAST:event_btnCadUsuarioActionPerformed
     public static void main(String args[]) {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -286,6 +303,7 @@ ResultSet rs = null;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCadUsuario;
     private javax.swing.JButton btnDeleteAllUsers;
     private javax.swing.JButton btnDeleteUser;
     private javax.swing.JButton btnInfoUser;

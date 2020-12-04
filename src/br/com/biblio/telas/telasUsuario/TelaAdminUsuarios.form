@@ -58,6 +58,8 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="btnVoltar" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
+                              <Component id="btnCadUsuario" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btnInfoUser" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btnDeleteUser" min="-2" max="-2" attributes="0"/>
@@ -102,6 +104,7 @@
                   <Component id="btnDeleteAllUsers" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnDeleteUser" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnInfoUser" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnCadUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
           </Group>
@@ -203,10 +206,18 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnInfoUser">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Abrir informa&#xe7;&#xf5;es do usu&#xe1;rio selecionado"/>
+        <Property name="text" type="java.lang.String" value="Abrir opera&#xe7;&#xf5;es para o usu&#xe1;rio selecionado"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInfoUserActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCadUsuario">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cadastrar novo usu&#xe1;rio"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCadUsuarioActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

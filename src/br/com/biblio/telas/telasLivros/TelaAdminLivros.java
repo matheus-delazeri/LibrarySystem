@@ -20,14 +20,22 @@ Multas multas = new Multas();
     }
     private void listarLivros(){
         String sql ="select * from livros";
+        String disponibilidade;
         try {
             pst = conexao.prepareStatement(sql);
             rs = pst.executeQuery();
             
-            DefaultTableModel modeloTabela = (DefaultTableModel)tableLivros.getModel(); 
+            DefaultTableModel modeloTabela = (DefaultTableModel)tableLivrosAdmin.getModel(); 
             modeloTabela.setRowCount(0);       
             while (rs.next()) {
-		modeloTabela.addRow(new String[] {rs.getString("nome_livro"), rs.getString("autores"), rs.getString("edicao"), rs.getString("editora"), rs.getString("ano"), rs.getString("isbn") });
+                if(rs.getString(8) == null && rs.getString(10) == null){
+                    disponibilidade = "Disponível";
+                }else if(rs.getString(8) != null && rs.getString(10) == null){
+                    disponibilidade = "Alugado";
+                }else{
+                    disponibilidade = "Reservado";
+                }
+		modeloTabela.addRow(new String[] {rs.getString("nome_livro"), rs.getString("autores"), rs.getString("edicao"), rs.getString("editora"), rs.getString("ano"), rs.getString("isbn"), disponibilidade});
             }
         } catch (Exception e) {
                 JOptionPane.showMessageDialog(null,e);
@@ -48,8 +56,8 @@ Multas multas = new Multas();
         }
     }
     private void deletarLivroSelecionado(){
-        DefaultTableModel modeloTabela = (DefaultTableModel)tableLivros.getModel(); 
-        int row = tableLivros.getSelectedRow();
+        DefaultTableModel modeloTabela = (DefaultTableModel)tableLivrosAdmin.getModel(); 
+        int row = tableLivrosAdmin.getSelectedRow();
         if(row == -1){
             JOptionPane.showMessageDialog(null, "Selecione a linha do livro que deseja apagar!");
         }else{
@@ -85,7 +93,7 @@ Multas multas = new Multas();
                     pst.setString(3,"%"+searchField.getText()+"%");
                     rs = pst.executeQuery();
 
-                    DefaultTableModel modeloTabela = (DefaultTableModel)tableLivros.getModel(); 
+                    DefaultTableModel modeloTabela = (DefaultTableModel)tableLivrosAdmin.getModel(); 
                     modeloTabela.setRowCount(0);       
                     if (rs.next()) {
                         do{
@@ -100,9 +108,9 @@ Multas multas = new Multas();
         }
     }
     public void getIsbn(){
-        DefaultTableModel modeloTabela = (DefaultTableModel)tableLivros.getModel(); 
+        DefaultTableModel modeloTabela = (DefaultTableModel)tableLivrosAdmin.getModel(); 
         String strIsbn = null;
-        int row = tableLivros.getSelectedRow();
+        int row = tableLivrosAdmin.getSelectedRow();
         if(row == -1){
             JOptionPane.showMessageDialog(null, "Selecione a linha do livro que deseja editar!");
         }else{
@@ -125,11 +133,12 @@ Multas multas = new Multas();
         btnVoltar = new javax.swing.JButton();
         btnDeleteAllLivros = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tableLivros = new javax.swing.JTable();
+        tableLivrosAdmin = new javax.swing.JTable();
         searchField = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         btnAddLivro = new javax.swing.JButton();
         btnEditLivro = new javax.swing.JButton();
+        btnMostrarEmprestimos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -158,25 +167,25 @@ Multas multas = new Multas();
             }
         });
 
-        tableLivros.setModel(new javax.swing.table.DefaultTableModel(
+        tableLivrosAdmin.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nome", "Autor(a)", "Edição", "Editora", "Ano", "ISBN"
+                "Nome", "Autor(a)", "Edição", "Editora", "Ano", "ISBN", "Situação"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tableLivros.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tableLivros.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(tableLivros);
+        tableLivrosAdmin.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tableLivrosAdmin.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tableLivrosAdmin);
 
         btnSearch.setText("Buscar");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -199,12 +208,21 @@ Multas multas = new Multas();
             }
         });
 
+        btnMostrarEmprestimos.setText("Mostrar Empréstimos");
+        btnMostrarEmprestimos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarEmprestimosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnMostrarEmprestimos)
+                .addGap(18, 18, 18)
                 .addComponent(btnEditLivro)
                 .addGap(18, 18, 18)
                 .addComponent(btnAddLivro)
@@ -248,7 +266,8 @@ Multas multas = new Multas();
                     .addComponent(btnDeleteLivro)
                     .addComponent(btnAddLivro)
                     .addComponent(btnDeleteAllLivros)
-                    .addComponent(btnEditLivro))
+                    .addComponent(btnEditLivro)
+                    .addComponent(btnMostrarEmprestimos))
                 .addGap(29, 29, 29))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -291,6 +310,12 @@ Multas multas = new Multas();
             getIsbn();
     }//GEN-LAST:event_btnEditLivroActionPerformed
 
+    private void btnMostrarEmprestimosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarEmprestimosActionPerformed
+        setVisible(false);
+        TelaEmprestimos telaEmprestimos = new TelaEmprestimos();
+        telaEmprestimos.setVisible(true);
+    }//GEN-LAST:event_btnMostrarEmprestimosActionPerformed
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -304,11 +329,12 @@ Multas multas = new Multas();
     private javax.swing.JButton btnDeleteAllLivros;
     private javax.swing.JButton btnDeleteLivro;
     private javax.swing.JButton btnEditLivro;
+    private javax.swing.JButton btnMostrarEmprestimos;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnVoltar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField searchField;
-    private javax.swing.JTable tableLivros;
+    private javax.swing.JTable tableLivrosAdmin;
     // End of variables declaration//GEN-END:variables
 }
