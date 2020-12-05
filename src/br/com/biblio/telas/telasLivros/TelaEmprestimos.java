@@ -51,14 +51,18 @@ ResultSet rsSearch = null;
                     rsSearch = pst.executeQuery();
                     DefaultTableModel modeloTabela = (DefaultTableModel)tableLivrosEmprestimo.getModel(); 
                     modeloTabela.setRowCount(0);
-                    while(rsSearch.next()){
-                        userReservou = rsSearch.getString(10);
-                        if(userReservou == null){
-                            userReservou = "Livro não reservado";
-                        }
-                        if(rsSearch.getString(8) != null){
-                            modeloTabela.addRow(new String[] {rsSearch.getString("nome_livro"), rsSearch.getString("autores"), rsSearch.getString("isbn"), rsSearch.getString("editora"), "Alugado", rsSearch.getString("user_que_alugou"), userReservou});
-                        }
+                    if(rsSearch.next()){
+                        do{
+                            userReservou = rsSearch.getString(10);
+                            if(userReservou == null){
+                                userReservou = "Livro não reservado";
+                            }
+                            if(rsSearch.getString(8) != null){
+                                modeloTabela.addRow(new String[] {rsSearch.getString("nome_livro"), rsSearch.getString("autores"), rsSearch.getString("isbn"), rsSearch.getString("editora"), "Alugado", rsSearch.getString("user_que_alugou"), userReservou});
+                            }
+                        }while(rsSearch.next());
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Nenhum empréstimo com essas informações! Tente novamente!");
                     }
                 }
         } catch (Exception e) {
@@ -78,6 +82,7 @@ ResultSet rsSearch = null;
         btnVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Empréstimos");
         setResizable(false);
 
         tableLivrosEmprestimo.setModel(new javax.swing.table.DefaultTableModel(
@@ -99,6 +104,12 @@ ResultSet rsSearch = null;
         tableLivrosEmprestimo.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tableLivrosEmprestimo.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tableLivrosEmprestimo);
+        if (tableLivrosEmprestimo.getColumnModel().getColumnCount() > 0) {
+            tableLivrosEmprestimo.getColumnModel().getColumn(0).setMinWidth(250);
+            tableLivrosEmprestimo.getColumnModel().getColumn(0).setMaxWidth(250);
+            tableLivrosEmprestimo.getColumnModel().getColumn(4).setMinWidth(100);
+            tableLivrosEmprestimo.getColumnModel().getColumn(4).setMaxWidth(100);
+        }
 
         btnSearch.setText("Buscar empréstimo");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {

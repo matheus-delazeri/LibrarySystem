@@ -30,9 +30,9 @@ ResultSet rs = null;
                 String cargo = rs.getString(4);
                 cargoField.setText(cargo);
                 if("Professor".equals(cargo)){
-                    numMaxLivrosField.setText(String.valueOf(5));
+                    numMaxLivrosAlugados.setText(String.valueOf(5));
                 }else{
-                    numMaxLivrosField.setText(String.valueOf(3));
+                    numMaxLivrosAlugados.setText(String.valueOf(3));
                 }
                 numLivrosAlugadosField.setText(String.valueOf(numLivrosAlugados));
             }
@@ -93,7 +93,7 @@ ResultSet rs = null;
     private void pagarMultas(){
         String user =  userField.getText();
         String sql = "update users set multa=? where usuario=?";
-        if(Integer.parseInt(numLivrosAlugadosField.getText()) == 0 && Integer.parseInt(valorTotalMultas.getText()) > 0){
+        if(Integer.parseInt(numMaxLivrosAlugados.getText()) == 0 && Integer.parseInt(valorTotalMultas.getText()) > 0){
             int confirma=JOptionPane.showConfirmDialog(null, "Deseja zerar a multa?");
             if (confirma==JOptionPane.YES_OPTION){
                 try{
@@ -117,7 +117,7 @@ ResultSet rs = null;
         String select = "select * from livros where user_que_alugou=?";
         String user =  userField.getText();
         String sql ="update livros set user_que_alugou=?, dia_que_alugou=? where user_que_alugou=?";
-        if(Integer.parseInt(numLivrosAlugadosField.getText()) > 0){
+        if(Integer.parseInt(numMaxLivrosAlugados.getText()) > 0){
             try{
                 pst = conexao.prepareStatement(select);
                 pst.setString(1, user);
@@ -210,17 +210,18 @@ ResultSet rs = null;
         jLabel5 = new javax.swing.JLabel();
         btnVoltar = new javax.swing.JButton();
         btnDevolverLivro = new javax.swing.JButton();
-        numLivrosAlugadosField = new javax.swing.JTextField();
+        numMaxLivrosAlugados = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        numMaxLivrosField = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         valorTotalMultas = new javax.swing.JTextField();
         btnPagarMulta = new javax.swing.JButton();
         btnDevolverTodosLivros = new javax.swing.JButton();
         btnAlugarReservar = new javax.swing.JButton();
         btnRenovar = new javax.swing.JButton();
+        numLivrosAlugadosField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Informações de usuário");
         setResizable(false);
 
         userField.setEditable(false);
@@ -228,10 +229,13 @@ ResultSet rs = null;
         userField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         userField.setToolTipText("");
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Nome:");
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Sobrenome:");
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Profissão:");
 
         tableLivrosAlugados.setModel(new javax.swing.table.DefaultTableModel(
@@ -239,7 +243,7 @@ ResultSet rs = null;
 
             },
             new String [] {
-                "Nome", "Autor(a)", "Edição", "Editora", "Ano", "ISBN", "Data empréstimo"
+                "Nome", "Autor(a)", "Edição", "Editora", "Ano", "ISBN", "Data do empréstimo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -254,25 +258,25 @@ ResultSet rs = null;
         tableLivrosAlugados.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tableLivrosAlugados);
         if (tableLivrosAlugados.getColumnModel().getColumnCount() > 0) {
-            tableLivrosAlugados.getColumnModel().getColumn(0).setMinWidth(200);
-            tableLivrosAlugados.getColumnModel().getColumn(0).setMaxWidth(200);
-            tableLivrosAlugados.getColumnModel().getColumn(1).setMinWidth(170);
-            tableLivrosAlugados.getColumnModel().getColumn(1).setMaxWidth(170);
+            tableLivrosAlugados.getColumnModel().getColumn(0).setMinWidth(300);
+            tableLivrosAlugados.getColumnModel().getColumn(0).setMaxWidth(300);
+            tableLivrosAlugados.getColumnModel().getColumn(1).setMinWidth(210);
+            tableLivrosAlugados.getColumnModel().getColumn(1).setMaxWidth(210);
             tableLivrosAlugados.getColumnModel().getColumn(2).setMinWidth(50);
             tableLivrosAlugados.getColumnModel().getColumn(2).setMaxWidth(50);
-            tableLivrosAlugados.getColumnModel().getColumn(3).setMinWidth(100);
-            tableLivrosAlugados.getColumnModel().getColumn(3).setMaxWidth(100);
+            tableLivrosAlugados.getColumnModel().getColumn(3).setMinWidth(150);
+            tableLivrosAlugados.getColumnModel().getColumn(3).setMaxWidth(150);
             tableLivrosAlugados.getColumnModel().getColumn(4).setMinWidth(50);
             tableLivrosAlugados.getColumnModel().getColumn(4).setMaxWidth(50);
-            tableLivrosAlugados.getColumnModel().getColumn(5).setMinWidth(150);
-            tableLivrosAlugados.getColumnModel().getColumn(5).setMaxWidth(150);
-            tableLivrosAlugados.getColumnModel().getColumn(6).setMinWidth(130);
-            tableLivrosAlugados.getColumnModel().getColumn(6).setMaxWidth(130);
+            tableLivrosAlugados.getColumnModel().getColumn(5).setMinWidth(170);
+            tableLivrosAlugados.getColumnModel().getColumn(5).setMaxWidth(170);
+            tableLivrosAlugados.getColumnModel().getColumn(6).setMinWidth(150);
+            tableLivrosAlugados.getColumnModel().getColumn(6).setMaxWidth(150);
         }
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Livros alugados:");
+        jLabel4.setText("LIVROS ALUGADOS");
 
         cargoField.setEditable(false);
         cargoField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -283,9 +287,9 @@ ResultSet rs = null;
         lastnameField.setEditable(false);
         lastnameField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Informações sobre o usuário");
+        jLabel5.setText("INFORMAÇÕES SOBRE O USUÁRIO:");
 
         btnVoltar.setText("Voltar");
         btnVoltar.addActionListener(new java.awt.event.ActionListener() {
@@ -301,14 +305,12 @@ ResultSet rs = null;
             }
         });
 
-        numLivrosAlugadosField.setEditable(false);
-        numLivrosAlugadosField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        numMaxLivrosAlugados.setEditable(false);
+        numMaxLivrosAlugados.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("de");
-
-        numMaxLivrosField.setEditable(false);
-        numMaxLivrosField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jLabel6.setText("DE");
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Valor total de multas a pagar: R$");
@@ -344,114 +346,111 @@ ResultSet rs = null;
             }
         });
 
+        numLivrosAlugadosField.setEditable(false);
+        numLivrosAlugadosField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnVoltar))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnRenovar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnAlugarReservar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnDevolverTodosLivros)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnDevolverLivro))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel1))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cargoField, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(437, 437, 437)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(numLivrosAlugadosField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(numMaxLivrosAlugados, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(247, 247, 247)
+                                .addContainerGap()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1075, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(245, 245, 245)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(userField, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cargoField, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel7)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(valorTotalMultas, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnPagarMulta))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(lastnameField, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(userField, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 78, Short.MAX_VALUE)
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(valorTotalMultas, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(39, 39, 39))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnVoltar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnRenovar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAlugarReservar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnDevolverTodosLivros)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnDevolverLivro)))))
-                .addGap(24, 24, 24))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(334, 334, 334)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(numLivrosAlugadosField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(numMaxLivrosField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnPagarMulta)
-                .addGap(149, 149, 149))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lastnameField, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userField)
                     .addComponent(jLabel5))
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(nameField)
-                            .addComponent(lastnameField))
-                        .addGap(40, 40, 40))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(valorTotalMultas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnPagarMulta)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(42, 42, 42)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(nameField)
+                    .addComponent(lastnameField))
+                .addGap(56, 56, 56)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(valorTotalMultas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPagarMulta))
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(cargoField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(numLivrosAlugadosField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(numMaxLivrosField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel6)
+                        .addComponent(numMaxLivrosAlugados, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel4)
+                        .addComponent(numLivrosAlugadosField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVoltar)
                     .addComponent(btnDevolverLivro)
                     .addComponent(btnDevolverTodosLivros)
                     .addComponent(btnAlugarReservar)
                     .addComponent(btnRenovar))
-                .addGap(9, 9, 9))
+                .addGap(24, 24, 24))
         );
 
         pack();
@@ -469,7 +468,7 @@ ResultSet rs = null;
         pagarMultas();
     }//GEN-LAST:event_btnPagarMultaActionPerformed
     private void btnDevolverTodosLivrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolverTodosLivrosActionPerformed
-        if(Integer.parseInt(numLivrosAlugadosField.getText()) > 0){
+        if(Integer.parseInt(numMaxLivrosAlugados.getText()) > 0){
             int confirma=JOptionPane.showConfirmDialog(null, "Deseja devolver todos os livros?");
             if (confirma==JOptionPane.YES_OPTION){
                 devolverTodosLivros();
@@ -511,7 +510,7 @@ ResultSet rs = null;
     private javax.swing.JTextField lastnameField;
     private javax.swing.JTextField nameField;
     private javax.swing.JTextField numLivrosAlugadosField;
-    private javax.swing.JTextField numMaxLivrosField;
+    private javax.swing.JTextField numMaxLivrosAlugados;
     private javax.swing.JTable tableLivrosAlugados;
     private javax.swing.JTextField userField;
     private javax.swing.JTextField valorTotalMultas;

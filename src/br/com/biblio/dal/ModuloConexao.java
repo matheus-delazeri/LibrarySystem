@@ -1,10 +1,6 @@
 package br.com.biblio.dal;
 
 import java.sql.*;
-/**
- *
- * @author Matheus
- */
 public class ModuloConexao {
     public static Connection conector(){
         java.sql.Connection conexao = null;

@@ -141,6 +141,7 @@ Multas multas = new Multas();
         btnMostrarEmprestimos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Painel Administrativo de Livros");
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -186,6 +187,14 @@ Multas multas = new Multas();
         tableLivrosAdmin.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tableLivrosAdmin.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tableLivrosAdmin);
+        if (tableLivrosAdmin.getColumnModel().getColumnCount() > 0) {
+            tableLivrosAdmin.getColumnModel().getColumn(0).setMinWidth(300);
+            tableLivrosAdmin.getColumnModel().getColumn(0).setMaxWidth(300);
+            tableLivrosAdmin.getColumnModel().getColumn(2).setMinWidth(50);
+            tableLivrosAdmin.getColumnModel().getColumn(2).setMaxWidth(50);
+            tableLivrosAdmin.getColumnModel().getColumn(6).setMinWidth(100);
+            tableLivrosAdmin.getColumnModel().getColumn(6).setMaxWidth(100);
+        }
 
         btnSearch.setText("Buscar");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
