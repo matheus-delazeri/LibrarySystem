@@ -9,7 +9,7 @@ O banco de dados utilizado no projeto é o MySQL e está configurado no diretór
 `url` = "jdbc:mysql://localhost:3307";
 
 `user` = "root";
-`password` = "";
 
+`password` = "";
 
 Podendo ser alteradas conforme for necessário.
