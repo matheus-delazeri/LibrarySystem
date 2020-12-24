@@ -73,7 +73,8 @@ int maxDiasEstud = 7;
             while(rs.next()){
                 Date diaQueAlugou = rs.getDate(9);
                 LocalDate convDia = ((java.sql.Date) diaQueAlugou).toLocalDate();
-                int daysBetweenDates = Math.toIntExact(ChronoUnit.DAYS.between(hoje, convDia));
+                int daysBetweenDates = Math.toIntExact(ChronoUnit.DAYS.between(convDia, hoje));
+                System.out.println(daysBetweenDates);
                 if(cargoMaxDias == maxDiasProf && daysBetweenDates > maxDiasProf){
                     valorMulta = daysBetweenDates + valorMulta - cargoMaxDias;
                 }else if(cargoMaxDias == maxDiasEstud && daysBetweenDates > maxDiasEstud){
