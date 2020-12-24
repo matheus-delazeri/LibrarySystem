@@ -289,7 +289,7 @@ ResultSet rsReservar = null;
         String strIsbn = null;
         int row = tableLivrosReservados.getSelectedRow();
         if(row == -1){
-            JOptionPane.showMessageDialog(null, "Selecione a linha do livro que deseja reservar!");
+            JOptionPane.showMessageDialog(null, "Selecione a linha do livro que deseja cancelar a reserva!");
         }else{
             int confirma=JOptionPane.showConfirmDialog(null, "Tem certeza que deseja cancelar a reserva do livro selecionado?");
             if (confirma==JOptionPane.YES_OPTION){

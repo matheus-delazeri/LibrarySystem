@@ -93,7 +93,7 @@ ResultSet rs = null;
     private void pagarMultas(){
         String user =  userField.getText();
         String sql = "update users set multa=? where usuario=?";
-        if(Integer.parseInt(numMaxLivrosAlugados.getText()) == 0 && Integer.parseInt(valorTotalMultas.getText()) > 0){
+        if(Integer.parseInt(numLivrosAlugadosField.getText()) == 0 && Integer.parseInt(valorTotalMultas.getText()) > 0){
             int confirma=JOptionPane.showConfirmDialog(null, "Deseja zerar a multa?");
             if (confirma==JOptionPane.YES_OPTION){
                 try{
@@ -117,27 +117,24 @@ ResultSet rs = null;
         String select = "select * from livros where user_que_alugou=?";
         String user =  userField.getText();
         String sql ="update livros set user_que_alugou=?, dia_que_alugou=? where user_que_alugou=?";
-        if(Integer.parseInt(numMaxLivrosAlugados.getText()) > 0){
-            try{
-                pst = conexao.prepareStatement(select);
-                pst.setString(1, user);
-                rs = pst.executeQuery();
-                while(rs.next()){
-                    pst = conexao.prepareStatement(sql);
-                    pst.setString(1, null);
-                    pst.setDate(2, null);
-                    pst.setString(3, user);
-                    pst.executeUpdate();
-                }
-            } catch(Exception e){
-                JOptionPane.showMessageDialog(null, e);
+        try{
+            pst = conexao.prepareStatement(select);
+            pst.setString(1, user);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, null);
+                pst.setDate(2, null);
+                pst.setString(3, user);
+                pst.executeUpdate();
             }
-            setVisible(false);
-            TelaInfoUsuario telaInfoUsuario = new TelaInfoUsuario(user);
-            telaInfoUsuario.setVisible(true);
-        }else{
-            JOptionPane.showMessageDialog(null, "Não há nenhum livro para ser devolvido!");
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
         }
+        setVisible(false);
+        TelaInfoUsuario telaInfoUsuario = new TelaInfoUsuario(user);
+        telaInfoUsuario.setVisible(true);
+        
     }
     private void renovarEmprestimo(){
         LocalDate hoje = java.time.LocalDate.now();  
@@ -468,7 +465,7 @@ ResultSet rs = null;
         pagarMultas();
     }//GEN-LAST:event_btnPagarMultaActionPerformed
     private void btnDevolverTodosLivrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolverTodosLivrosActionPerformed
-        if(Integer.parseInt(numMaxLivrosAlugados.getText()) > 0){
+        if(Integer.parseInt(numLivrosAlugadosField.getText()) > 0){
             int confirma=JOptionPane.showConfirmDialog(null, "Deseja devolver todos os livros?");
             if (confirma==JOptionPane.YES_OPTION){
                 devolverTodosLivros();
