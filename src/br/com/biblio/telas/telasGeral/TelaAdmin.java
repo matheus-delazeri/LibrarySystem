@@ -18,6 +18,7 @@ ResultSet rs = null;
 Multas multas = new Multas();
     public TelaAdmin() {
         initComponents();
+        
         conexao = ModuloConexao.conector();
         if(conexao != null){
             statusLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/biblio/icones/icons8-database-view-64.png")));
